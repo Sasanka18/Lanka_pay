@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'qr_scanner_screen.dart';
 import 'qr_validation_result_screen.dart';
@@ -39,7 +40,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Full background image
           Container(
-            height: height * 1.2, // Increased from height to height * 1.2
+            height: height * 1.2, 
             width: width,
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -116,9 +117,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 90), // Increased from 14 to 40
+                  const SizedBox(height: 90), 
 
-                  // Power button with left alignment
+                  // Power button 
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -128,7 +129,8 @@ class HomeScreen extends StatelessWidget {
                         height: 40,
                         decoration: const BoxDecoration(
                           color: Colors.white,
-                          shape: BoxShape.circle,
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
                         ),
                         child: const Icon(
                           Icons.power_settings_new,
@@ -152,8 +154,8 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      width: width * 0.7,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -170,7 +172,7 @@ class HomeScreen extends StatelessWidget {
                           const Icon(Icons.qr_code_scanner,
                               size: 40, color: Color(0xFF1A1442)),
                           const SizedBox(height: 8),
-                          // Replace single Text with Row for different colors
+                          
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
@@ -210,7 +212,7 @@ class HomeScreen extends StatelessWidget {
                   const Text(
                     'Scan QR code from Gallery',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xFF201B51),
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
@@ -219,7 +221,7 @@ class HomeScreen extends StatelessWidget {
                   const Text(
                     'Once uploaded, you will be redirected\nto the result screen.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white70, fontSize: 13),
+                    style: TextStyle(color: Color(0xFF201B51)),
                   ),
 
                   const SizedBox(height: 24),
@@ -231,17 +233,21 @@ class HomeScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () => _pickImage(context),
                         child: Container(
-                          height: 50,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          height: 60,
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white70),
+                            color: Colors.white, 
+                            border: Border.all(color: Colors.black26), 
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Center(
                             child: Text(
                               'Choose QR Code',
                               style: TextStyle(
-                                  fontSize: 14, color: Colors.white),
+                                fontSize: 14,
+                                color: Color(0xFF525252), 
+                                fontWeight: FontWeight.w500, 
+                              ),
                             ),
                           ),
                         ),

@@ -9,7 +9,7 @@ class QRValidationResultScreen extends StatelessWidget {
   });
 
   List<Map<String, dynamic>> validateQRData(String data) {
-    // TODO: Implement actual QR validation logic
+    
     return [
       {'tag': '58 - Country Code', 'value': 'LK', 'length': 2, 'status': 'VALID'},
       {'tag': '59 - Merchant Name', 'value': 'KING WAY', 'length': 8, 'status': 'VALID'},
@@ -21,7 +21,7 @@ class QRValidationResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
+    //final screenSize = MediaQuery.of(context).size;
     final validationData = validateQRData(qrData);
 
     return Scaffold(
@@ -33,7 +33,7 @@ class QRValidationResultScreen extends StatelessWidget {
             Container(
               color: const Color(0xFF1A1442),
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 40),
               child: Column(
                 children: [
                   Image.asset(
@@ -41,13 +41,26 @@ class QRValidationResultScreen extends StatelessWidget {
                     height: 40,
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'LANKAQR',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                    )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'LANKA',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Text(
+                        'QR',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ],
                   ),
                   const Text(
                     'Qr Code Validator',
@@ -71,27 +84,87 @@ class QRValidationResultScreen extends StatelessWidget {
 
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 6),
-                    child: ListTile(
-                      title: Text(item['tag']),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
                         children: [
-                          Text('Value: ${item['value'] ?? ''}'),
-                          Text('Length: ${item['length']}'),
+                          // Tag and Value/Length Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Tag on left corner
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['tag'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              // Status in middle
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: isValid ? Colors.green : Colors.red,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  item['status'],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+
+                              // Value and Length on right corner
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'Value: ${item['value'] ?? ''}',
+                                      style: const TextStyle(fontSize: 14),
+                                      textAlign: TextAlign.end,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Length: ${item['length']}',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[600],
+                                      ),
+                                      textAlign: TextAlign.end,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          // Note if exists
                           if (item['note'] != null)
-                            Text(item['note'], style: const TextStyle(color: Colors.red)),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(
+                                item['note'],
+                                style: const TextStyle(color: Colors.red, fontSize: 12),
+                              ),
+                            ),
                         ],
-                      ),
-                      trailing: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: isValid ? Colors.green : Colors.red,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          item['status'],
-                          style: const TextStyle(color: Colors.white),
-                        ),
                       ),
                     ),
                   );
@@ -109,42 +182,13 @@ class QRValidationResultScreen extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
+                        child: Image.asset(
+                          'assets/home.png',
+                          height: 35,
+                          width: 35,
                           color: const Color(0xFF1A1442),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: MaterialButton(
-                          onPressed: () => Navigator.of(context)
-                              .popUntil((route) => route.isFirst),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/home.png',
-                                height: 24,
-                                width: 24,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Home',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
                       ),
                     ),
