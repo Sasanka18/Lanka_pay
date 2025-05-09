@@ -15,14 +15,50 @@ class QRValidationFailedScreen extends StatelessWidget {
             // Header
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              color: const Color(0xFF1A1442),
+              padding: const EdgeInsets.symmetric(vertical: 50),
+              color: Color(0xFF201B51),
               child: Column(
-                children: const [
-                  Icon(Icons.qr_code, size: 40, color: Colors.white),
-                  SizedBox(height: 8),
-                  Text('LANKAQR', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-                  Text('Qr Code Validator', style: TextStyle(color: Colors.white70, fontSize: 14)),
+                children: [
+                  // Logo and QR icon row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/logo.png',
+                        height: 60,
+                        width: 60,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'LANKA',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'QR',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    'Qr Code Validator',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -38,12 +74,12 @@ class QRValidationFailedScreen extends StatelessWidget {
 
             // Failure icon
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.deepPurple, width: 4),
+                border: Border.all(color: Color.fromARGB(255, 57, 68, 196), width: 4),
               ),
-              child: const Icon(Icons.close, size: 48, color: Colors.deepPurple),
+              child: const Icon(Icons.close, size: 48, color: Color.fromARGB(255, 57, 68, 196)),
             ),
 
             const SizedBox(height: 16),
@@ -63,22 +99,54 @@ class QRValidationFailedScreen extends StatelessWidget {
             const SizedBox(height: 32),
 
             // Back to scanner button
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                side: const BorderSide(color: Colors.black12),
-                elevation: 4,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 100),
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black26),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  
+                      const SizedBox(width: 8),
+                      Text(
+                        'Back to Scanner',
+                        style: TextStyle(
+                          color: const Color(0xFF1A1442),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: const Text('Back to Scanner'),
             ),
 
             const SizedBox(height: 20),
 
             // Home icon
-            const Icon(Icons.home, size: 28, color: Colors.black45),
+            GestureDetector(
+              onTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
+              child: const Icon(
+                Icons.home, 
+                size: 28, 
+                color: Colors.black45
+              ),
+            ),
 
             const Spacer(),
 
