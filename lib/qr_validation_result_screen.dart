@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QRValidationResultScreen extends StatelessWidget {
   final String qrData;
@@ -20,7 +21,6 @@ class QRValidationResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     final validationData = validateQRData(qrData);
 
     return Scaffold(
@@ -31,29 +31,29 @@ class QRValidationResultScreen extends StatelessWidget {
             // Header
             Container(
               color: const Color(0xFF1A1442),
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              width: 1.sw, // Full screen width
+              padding: EdgeInsets.symmetric(vertical: 16.h),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/logo.png',
-                    height: 40,
+                    height: 40.h,
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
+                  SizedBox(height: 8.h),
+                  Text(
                     'LANKAQR',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.bold
                     )
                   ),
-                  const Text(
+                  Text(
                     'Qr Code Validator',
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: 14
+                      fontSize: 14.sp
                     )
                   ),
                 ],
@@ -63,34 +63,55 @@ class QRValidationResultScreen extends StatelessWidget {
             // Validation result list
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12.w),
                 itemCount: validationData.length,
                 itemBuilder: (context, index) {
                   final item = validationData[index];
                   final isValid = item['status'] == 'VALID';
 
                   return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    margin: EdgeInsets.symmetric(vertical: 6.h),
                     child: ListTile(
-                      title: Text(item['tag']),
+                      title: Text(
+                        item['tag'],
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Value: ${item['value'] ?? ''}'),
-                          Text('Length: ${item['length']}'),
+                          Text(
+                            'Value: ${item['value'] ?? ''}',
+                            style: TextStyle(fontSize: 14.sp),
+                          ),
+                          Text(
+                            'Length: ${item['length']}',
+                            style: TextStyle(fontSize: 14.sp),
+                          ),
                           if (item['note'] != null)
-                            Text(item['note'], style: const TextStyle(color: Colors.red)),
+                            Text(
+                              item['note'],
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12.sp
+                              ),
+                            ),
                         ],
                       ),
                       trailing: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 4.h
+                        ),
                         decoration: BoxDecoration(
                           color: isValid ? Colors.green : Colors.red,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(
                           item['status'],
-                          style: const TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.sp
+                          ),
                         ),
                       ),
                     ),
@@ -101,17 +122,17 @@ class QRValidationResultScreen extends StatelessWidget {
 
             // Bottom section
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
+                      padding: EdgeInsets.only(right: 8.w),
                       child: Container(
-                        height: 60,
+                        height: 60.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           color: const Color(0xFF1A1442),
                         ),
                       ),
@@ -121,28 +142,28 @@ class QRValidationResultScreen extends StatelessWidget {
                   // Back to Scanner Button
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: EdgeInsets.only(left: 8.w),
                       child: Container(
-                        height: 60,
+                        height: 60.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           border: Border.all(color: Colors.black26),
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
+                              blurRadius: 10.r,
+                              offset: Offset(0, 5.h),
                             ),
                           ],
                         ),
                         child: MaterialButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text(
+                          child: Text(
                             'Back to Scanner',
                             style: TextStyle(
-                              color: Color(0xFF1A1442),
-                              fontSize: 16,
+                              color: const Color(0xFF1A1442),
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -154,11 +175,11 @@ class QRValidationResultScreen extends StatelessWidget {
               ),
             ),
 
-            const Padding(
-              padding: EdgeInsets.only(bottom: 8.0),
+            Padding(
+              padding: EdgeInsets.only(bottom: 8.h),
               child: Text(
                 "This application developed by DirectPay for developers, merchants and community. Version 1.0",
-                style: TextStyle(fontSize: 10, color: Colors.grey),
+                style: TextStyle(fontSize: 10.sp, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
             ),
