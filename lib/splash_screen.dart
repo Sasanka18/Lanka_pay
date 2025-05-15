@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:async';
 import 'home_screen.dart';
 
@@ -23,17 +24,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final screenHeight = size.height;
-    final screenWidth = size.width;
-
     return Scaffold(
       body: Column(
         children: [
           Expanded(
             flex: 7,
             child: Container(
-              width: double.infinity,
+              width: 1.sw,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/background.png'),
@@ -47,8 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Container(
               color: const Color(0xFF1A1442),
               padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.05,
-                vertical: screenHeight * 0.02,
+                horizontal: 20.w,
+                vertical: 16.h,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -56,15 +53,15 @@ class _SplashScreenState extends State<SplashScreen> {
                   // Logo image 
                   Image.asset(
                     'assets/logo.png',
-                    height: screenHeight * 0.08,
-                    width: screenWidth * 0.15,
+                    height: 60.h,
+                    width: 60.w,
                   ),
-                  SizedBox(height: screenHeight * 0.02),
+                  SizedBox(height: 16.h),
                   
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(width: screenWidth * 0.03),
+                      SizedBox(width: 12.w),
                       
                       // LANKAQR text
                       RichText(
@@ -74,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               text: 'LANKA',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: screenWidth * 0.06,
+                                fontSize: 24.sp,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                               ),
@@ -83,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               text: 'QR',
                               style: TextStyle(
                                 color: Colors.red,
-                                fontSize: screenWidth * 0.06,
+                                fontSize: 24.sp,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                               ),
@@ -93,26 +90,26 @@ class _SplashScreenState extends State<SplashScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: screenHeight * 0.01),
+                  SizedBox(height: 8.h),
                   Text(
                     'Qr Code Validator',
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: screenWidth * 0.04,
+                      fontSize: 16.sp,
                     ),
                   ),
                   Text(
                     'from',
                     style: TextStyle(
                       color: Colors.white54,
-                      fontSize: screenWidth * 0.03,
+                      fontSize: 12.sp,
                     ),
                   ),
                   Text(
                     'DirectPay',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenWidth * 0.04,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

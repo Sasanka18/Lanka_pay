@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'qr_scanner_screen.dart';
 
 class QRValidationResultScreen extends StatelessWidget {
@@ -21,9 +22,6 @@ class QRValidationResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final screenHeight = size.height;
-    final screenWidth = size.width;
     final validationData = validateQRData(qrData);
 
     return Scaffold(
@@ -35,17 +33,15 @@ class QRValidationResultScreen extends StatelessWidget {
             Container(
               color: const Color(0xFF1A1442),
               width: double.infinity,
-              padding: EdgeInsets.symmetric(
-                vertical: screenHeight * 0.04,
-              ),
+              padding: EdgeInsets.symmetric(vertical: 32.h),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/logo.png',
-                    height: screenHeight * 0.06,
+                    height: 48.h,
                   ),
-                  SizedBox(height: screenHeight * 0.01),
+                  SizedBox(height: 8.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -53,7 +49,7 @@ class QRValidationResultScreen extends StatelessWidget {
                         'LANKA',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: screenWidth * 0.05,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -61,7 +57,7 @@ class QRValidationResultScreen extends StatelessWidget {
                         'QR',
                         style: TextStyle(
                           color: Colors.red,
-                          fontSize: screenWidth * 0.05,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -71,28 +67,26 @@ class QRValidationResultScreen extends StatelessWidget {
                     'Qr Code Validator',
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: screenWidth * 0.035,
+                      fontSize: 14.sp,
                     ),
                   ),
                 ],
               ),
             ),
 
-            //  result list
+            // Result list
             Expanded(
               child: ListView.builder(
-                padding: EdgeInsets.all(screenWidth * 0.03),
+                padding: EdgeInsets.all(12.w),
                 itemCount: validationData.length,
                 itemBuilder: (context, index) {
                   final item = validationData[index];
                   final isValid = item['status'] == 'VALID';
 
                   return Card(
-                    margin: EdgeInsets.symmetric(
-                      vertical: screenHeight * 0.008,
-                    ),
+                    margin: EdgeInsets.symmetric(vertical: 6.h),
                     child: Padding(
-                      padding: EdgeInsets.all(screenWidth * 0.03),
+                      padding: EdgeInsets.all(12.w),
                       child: Column(
                         children: [
                           Row(
@@ -105,25 +99,25 @@ class QRValidationResultScreen extends StatelessWidget {
                                   item['tag'],
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: screenWidth * 0.04,
+                                    fontSize: 16.sp,
                                   ),
                                 ),
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: screenWidth * 0.03,
-                                  vertical: screenHeight * 0.005,
+                                  horizontal: 12.w,
+                                  vertical: 4.h,
                                 ),
                                 decoration: BoxDecoration(
                                   color: isValid ? Colors.green : Colors.red,
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(8.r),
                                 ),
                                 child: Text(
                                   item['status'],
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: screenWidth * 0.035,
+                                    fontSize: 14.sp,
                                   ),
                                 ),
                               ),
@@ -134,16 +128,14 @@ class QRValidationResultScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       'Value: ${item['value'] ?? ''}',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
-                                      ),
+                                      style: TextStyle(fontSize: 14.sp),
                                       textAlign: TextAlign.end,
                                     ),
-                                    SizedBox(height: screenHeight * 0.005),
+                                    SizedBox(height: 4.h),
                                     Text(
                                       'Length: ${item['length']}',
                                       style: TextStyle(
-                                        fontSize: screenWidth * 0.03,
+                                        fontSize: 12.sp,
                                         color: Colors.grey[600],
                                       ),
                                       textAlign: TextAlign.end,
@@ -155,12 +147,12 @@ class QRValidationResultScreen extends StatelessWidget {
                           ),
                           if (item['note'] != null)
                             Padding(
-                              padding: EdgeInsets.only(top: screenHeight * 0.01),
+                              padding: EdgeInsets.only(top: 8.h),
                               child: Text(
                                 item['note'],
                                 style: TextStyle(
                                   color: Colors.red,
-                                  fontSize: screenWidth * 0.03,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                             ),
@@ -174,54 +166,53 @@ class QRValidationResultScreen extends StatelessWidget {
 
             // Bottom section
             Padding(
-              padding: EdgeInsets.all(screenWidth * 0.04),
+              padding: EdgeInsets.all(16.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(right: screenWidth * 0.02),
+                      padding: EdgeInsets.only(right: 8.w),
                       child: GestureDetector(
-                        onTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
+                        onTap: () => Navigator.of(context)
+                            .popUntil((route) => route.isFirst),
                         child: Image.asset(
                           'assets/home.png',
-                          height: screenHeight * 0.05,
-                          width: screenWidth * 0.08,
+                          height: 40.h,
+                          width: 40.w,
                           color: const Color(0xFF1A1442),
                         ),
                       ),
                     ),
                   ),
-                  // Back to Scanner 
+                  // Back to Scanner button
                   Expanded(
                     child: Container(
-                      height: screenHeight * 0.07,
+                      height: 56.h,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(color: Colors.black26),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
+                            blurRadius: 10.r,
+                            offset: Offset(0, 5.h),
                           ),
                         ],
                       ),
                       child: MaterialButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const QRScannerScreen(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const QRScannerScreen(),
+                          ),
+                        ),
                         child: Text(
                           'Back to Scanner',
                           style: TextStyle(
                             color: const Color(0xFF1A1442),
-                            fontSize: screenWidth * 0.04,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -233,11 +224,11 @@ class QRValidationResultScreen extends StatelessWidget {
             ),
 
             Padding(
-              padding: EdgeInsets.only(bottom: screenHeight * 0.01),
+              padding: EdgeInsets.only(bottom: 8.h),
               child: Text(
-                "This application developed by DirectPay for developers, merchants and community. Version 1.0",
+                "This application developed by DirectPay for developers,\nmerchants and community. Version 1.0",
                 style: TextStyle(
-                  fontSize: screenWidth * 0.025,
+                  fontSize: 10.sp,
                   color: Colors.grey,
                 ),
                 textAlign: TextAlign.center,

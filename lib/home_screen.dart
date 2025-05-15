@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:image_picker/image_picker.dart';
 import 'qr_scanner_screen.dart';
 import 'qr_validation_result_screen.dart';
@@ -12,25 +13,36 @@ class HomeScreen extends StatelessWidget {
     try {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => QRValidationResultScreen(qrData: image.path),
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QRValidationResultScreen(qrData: image.path),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error accessing gallery'),
+            backgroundColor: Colors.red,
           ),
         );
       }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error accessing gallery'),
-          backgroundColor: Colors.red,
-        ),
-      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+  
+    ScreenUtil.init(
+      context,
+      designSize: const Size(375, 812), 
+      minTextAdapt: true,
+    );
+
     final Size size = MediaQuery.of(context).size;
     final double width = size.width;
     final double height = size.height;
@@ -38,114 +50,113 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Full background image
           Container(
-            height: height * 1.2, 
-            width: width,
+            height: 1.2.sh, 
+            width: 1.sw,   
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/LankaQR Validator.png'),
-
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
-          
-         
           // Main content
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                 
-                  
                   // Logo image
                   Image.asset(
                     'assets/logo.png',
-                    height:200,
-                    width: 200,
-                   
+                    height: 150.h,
+                    width: 150.w,
                   ),
-                  
-                
-               
-                 
-                  const Text(
+                  Text(
                     'QR Code Validator',
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                     ),
                   ),
-                  //const SizedBox(height: ),
-                  const Text(
+                  Text(
                     'Use this application to validate any LankaQR codes\neasily, fast, and accurately.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 12.sp,
                       height: 1.5,
                     ),
                   ),
 
-                  const SizedBox(height: 50), 
+                  SizedBox(height: 80.h), 
 
                   // Power button 
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 60),
+                      padding: EdgeInsets.only(left: 60.w),
                       child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
+                        width: 40.w,
+                        height: 40.h,
+                        decoration: BoxDecoration(
                           color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          borderRadius: BorderRadius.all(Radius.circular(12.r)),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.power_settings_new,
-                          color: Color(0xFF1A1442),
-                          size: 20,
+                          color: const Color(0xFF1A1442),
+                          size: 20.sp,
                         ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 40), 
+                  SizedBox(height: 40.h), 
 
                   // Scan QR Code button
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QRScannerScreen(),
-                        ),
-                      );
+                      try {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const QRScannerScreen(),
+                          ),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Error opening scanner'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
                     },
                     child: Container(
-                      width: width * 0.7,
-                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      width: 0.7.sw,
+                      padding: EdgeInsets.symmetric(vertical: 18.h),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: const[
+                        borderRadius: BorderRadius.circular(16.r),
+                        boxShadow: [
                           BoxShadow(
                             color: Colors.black12,
-                            blurRadius: 10,
-                            offset: Offset(0, 5),
+                            blurRadius: 10.r,
+                            offset: Offset(0, 5.h),
                           ),
                         ],
                       ),
-                      child:const Column(
+                      child: Column(
                         children: [
-                           Icon(Icons.qr_code_scanner,
-                              size: 40, color: Color(0xFF1A1442)),
-                           SizedBox(height: 8),
+                          Icon(
+                            Icons.qr_code_scanner,
+                            size: 40.sp,
+                            color: const Color(0xFF1A1442)
+                          ),
+                          SizedBox(height: 8.h),
                           
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -153,9 +164,9 @@ class HomeScreen extends StatelessWidget {
                               Text(
                                 'SCAN ',
                                 style: TextStyle(
-                                  color: Color(0xFF1A1442),
+                                  color: const Color(0xFF1A1442),
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                 ),
                               ),
                               Text(
@@ -163,15 +174,15 @@ class HomeScreen extends StatelessWidget {
                                 style: TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                 ),
                               ),
                               Text(
                                 ' CODE',
                                 style: TextStyle(
-                                  color: Color(0xFF1A1442),
+                                  color: const Color(0xFF1A1442),
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                 ),
                               ),
                             ],
@@ -181,24 +192,24 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32.h),
 
-                  const Text(
+                  Text(
                     'Scan QR code from Gallery',
                     style: TextStyle(
-                      color: Color(0xFF201B51),
-                      fontSize: 18,
+                      color: const Color(0xFF201B51),
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.h),
                   const Text(
                     'Once uploaded, you will be redirected\nto the result screen.',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Color(0xFF201B51)),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
 
                   // Upload buttons
                   Row(
@@ -226,7 +237,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       GestureDetector(
                         onTap: () => _pickImage(context),
                         child: Container(
@@ -243,14 +254,14 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30.h),
 
                   const Text(
                     'This application developed by DirectPay for developers,\nmerchants and community. Version 1.0',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 10, color: Colors.white54),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),

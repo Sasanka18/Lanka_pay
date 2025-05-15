@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   image_picker: ^1.0.7
   mobile_scanner: ^3.5.5
+  flutter_screenutil: ^5.9.0
 
 
 dev_dependencies:
@@ -63,10 +64,9 @@ flutter:
  
   assets:
     - assets/logo.png
-    - assets/background.png
     - assets/LankaQR Validator.png
-    - assets/index.png
     - assets/home.png
+    - assets/index.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
