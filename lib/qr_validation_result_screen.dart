@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'qr_scanner_screen.dart';
 
 class QRValidationResultScreen extends StatelessWidget {
   final String qrData;
@@ -22,6 +20,7 @@ class QRValidationResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     final validationData = validateQRData(qrData);
 
     return Scaffold(
@@ -33,130 +32,66 @@ class QRValidationResultScreen extends StatelessWidget {
             Container(
               color: const Color(0xFF1A1442),
               width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 32.h),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/logo.png',
-                    height: 48.h,
+                    height: 40,
                   ),
-                  SizedBox(height: 8.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'LANKA',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'QR',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 8),
+                  const Text(
+                    'LANKAQR',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                    )
                   ),
-                  Text(
+                  const Text(
                     'Qr Code Validator',
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: 14.sp,
-                    ),
+                      fontSize: 14
+                    )
                   ),
                 ],
               ),
             ),
 
-            // Result list
+            // Validation result list
             Expanded(
               child: ListView.builder(
-                padding: EdgeInsets.all(12.w),
+                padding: const EdgeInsets.all(12),
                 itemCount: validationData.length,
                 itemBuilder: (context, index) {
                   final item = validationData[index];
                   final isValid = item['status'] == 'VALID';
 
                   return Card(
-                    margin: EdgeInsets.symmetric(vertical: 6.h),
-                    child: Padding(
-                      padding: EdgeInsets.all(12.w),
-                      child: Column(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    child: ListTile(
+                      title: Text(item['tag']),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  item['tag'],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.sp,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12.w,
-                                  vertical: 4.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: isValid ? Colors.green : Colors.red,
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                child: Text(
-                                  item['status'],
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'Value: ${item['value'] ?? ''}',
-                                      style: TextStyle(fontSize: 14.sp),
-                                      textAlign: TextAlign.end,
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      'Length: ${item['length']}',
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.grey[600],
-                                      ),
-                                      textAlign: TextAlign.end,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                          Text('Value: ${item['value'] ?? ''}'),
+                          Text('Length: ${item['length']}'),
                           if (item['note'] != null)
-                            Padding(
-                              padding: EdgeInsets.only(top: 8.h),
-                              child: Text(
-                                item['note'],
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                            ),
+                            Text(item['note'], style: const TextStyle(color: Colors.red)),
                         ],
+                      ),
+                      trailing: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: isValid ? Colors.green : Colors.red,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          item['status'],
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   );
@@ -166,54 +101,50 @@ class QRValidationResultScreen extends StatelessWidget {
 
             // Bottom section
             Padding(
-              padding: EdgeInsets.all(16.w),
+              padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 8.w),
-                      child: GestureDetector(
-                        onTap: () => Navigator.of(context)
-                            .popUntil((route) => route.isFirst),
-                        child: Image.asset(
-                          'assets/home.png',
-                          height: 40.h,
-                          width: 40.w,
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
                           color: const Color(0xFF1A1442),
                         ),
                       ),
                     ),
                   ),
-                  // Back to Scanner button
+                  
+                  // Back to Scanner Button
                   Expanded(
-                    child: Container(
-                      height: 56.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: Colors.black26),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10.r,
-                            offset: Offset(0, 5.h),
-                          ),
-                        ],
-                      ),
-                      child: MaterialButton(
-                        onPressed: () => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const QRScannerScreen(),
-                          ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.black26),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10,
+                              offset: const Offset(0, 5),
+                            ),
+                          ],
                         ),
-                        child: Text(
-                          'Back to Scanner',
-                          style: TextStyle(
-                            color: const Color(0xFF1A1442),
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                        child: MaterialButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text(
+                            'Back to Scanner',
+                            style: TextStyle(
+                              color: Color(0xFF1A1442),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
@@ -223,14 +154,11 @@ class QRValidationResultScreen extends StatelessWidget {
               ),
             ),
 
-            Padding(
-              padding: EdgeInsets.only(bottom: 8.h),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
               child: Text(
-                "This application developed by DirectPay for developers,\nmerchants and community. Version 1.0",
-                style: TextStyle(
-                  fontSize: 10.sp,
-                  color: Colors.grey,
-                ),
+                "This application developed by DirectPay for developers, merchants and community. Version 1.0",
+                style: TextStyle(fontSize: 10, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
             ),

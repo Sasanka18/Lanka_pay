@@ -6,6 +6,8 @@ class QRValidationFailedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -14,166 +16,79 @@ class QRValidationFailedScreen extends StatelessWidget {
             // Header
             Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 32.h),
-              color: const Color(0xFF201B51),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              color: const Color(0xFF1A1442),
               child: Column(
-                children: [
-                  // Logo and QR icon row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/logo.png',
-                        height: 60.h,
-                        width: 60.w,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'LANKA',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'QR',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'Qr Code Validator',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14.sp,
-                    ),
-                  ),
+                children: const [
+                  Icon(Icons.qr_code, size: 40, color: Colors.white),
+                  SizedBox(height: 8),
+                  Text('LANKAQR', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text('Qr Code Validator', style: TextStyle(color: Colors.white70, fontSize: 14)),
                 ],
               ),
             ),
 
-            SizedBox(height: 32.h),
+            const SizedBox(height: 40),
 
             Text(
               'Scan Result',
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600
-              ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
 
-            SizedBox(height: 24.h),
+            const SizedBox(height: 24),
 
             // Failure icon
             Container(
-              padding: EdgeInsets.all(6.w),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: const Color.fromARGB(255, 57, 68, 196),
-                  width: 4.w
-                ),
+                border: Border.all(color: Colors.deepPurple, width: 4),
               ),
-              child: Icon(
-                Icons.close,
-                size: 48.sp,
-                color: const Color.fromARGB(255, 57, 68, 196)
-              ),
+              child: const Icon(Icons.close, size: 48, color: Colors.deepPurple),
             ),
 
-            SizedBox(height: 16.h),
+            const SizedBox(height: 16),
 
             Text(
               'Validation Failed.',
-              style: TextStyle(
-                color: Colors.deepOrange,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold
-              ),
+              style: TextStyle(color: Colors.deepOrange, fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
-            SizedBox(height: 8.h),
+            const SizedBox(height: 8),
 
             Text(
               'No Data Found.',
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 14.sp
-              ),
+              style: TextStyle(color: Colors.black54, fontSize: 14),
             ),
 
-            SizedBox(height: 32.h),
+            const SizedBox(height: 32),
 
             // Back to scanner button
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0.25.sw),
-              child: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  height: 56.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.r),
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black26),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10.r,
-                        offset: Offset(0, 5.h),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(width: 8.w),
-                      Text(
-                        'Back to Scanner',
-                        style: TextStyle(
-                          color: const Color(0xFF1A1442),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                side: const BorderSide(color: Colors.black12),
+                elevation: 4,
               ),
+              child: const Text('Back to Scanner'),
             ),
 
-            SizedBox(height: 20.h),
+            const SizedBox(height: 20),
 
             // Home icon
-            GestureDetector(
-              onTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
-              child: Icon(
-                Icons.home,
-                size: 28.sp,
-                color: Colors.black45
-              ),
-            ),
+            const Icon(Icons.home, size: 28, color: Colors.black45),
 
             const Spacer(),
 
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.h),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 12),
               child: Text(
                 "This application developed by DirectPay for developers,\nmerchants and community. Version 1.0",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 10.sp,
-                  color: Colors.grey
-                ),
+                style: TextStyle(fontSize: 10, color: Colors.grey),
               ),
             ),
           ],

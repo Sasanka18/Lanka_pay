@@ -24,6 +24,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final screenHeight = size.height;
+    final screenWidth = size.width;
+
     return Scaffold(
       body: Column(
         children: [
@@ -43,27 +47,18 @@ class _SplashScreenState extends State<SplashScreen> {
             flex: 3,
             child: Container(
               color: const Color(0xFF1A1442),
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 16.h,
-              ),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo image 
-                  Image.asset(
-                    'assets/logo.png',
-                    height: 60.h,
-                    width: 60.w,
-                  ),
-                  SizedBox(height: 16.h),
-                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(width: 12.w),
-                      
-                      // LANKAQR text
+                      Image.asset(
+                        'assets/logo.png',
+                        height: 60,
+                      ),
+                      const SizedBox(width: 10),
                       RichText(
                         text: TextSpan(
                           children: [
@@ -71,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               text: 'LANKA',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 24.sp,
+                                fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                               ),
@@ -80,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               text: 'QR',
                               style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 24.sp,
+                                fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5,
                               ),
@@ -90,26 +85,26 @@ class _SplashScreenState extends State<SplashScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.h),
-                  Text(
+                  const SizedBox(height: 10),
+                  const Text(
                     'Qr Code Validator',
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: 16.sp,
+                      fontSize: 16,
                     ),
                   ),
                   Text(
                     'from',
                     style: TextStyle(
                       color: Colors.white54,
-                      fontSize: 12.sp,
+                      fontSize: 12,
                     ),
                   ),
                   Text(
                     'DirectPay',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16.sp,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

@@ -34,66 +34,54 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background image 
-          Padding(
-            padding: EdgeInsets.only(top: 30.h), 
-            child: Container(
-              width: 1.6.sw,
-              height: 0.8.sh,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Index image as header
+            Container(
+              width: screenWidth,
+              height: screenHeight * 0.15, // 15% of screen height
               child: Image.asset(
                 'assets/index.png',
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  debugPrint('Error loading background image: $error');
-                  return Container(
-                    color: const Color(0xFF1A1442),
-                    child: Center(
-                      child: Text(
-                        'Unable to load background image',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14.sp
-                        ),
-                      ),
-                    ),
-                  );
-                },
               ),
             ),
-          ),
 
-          // Main content
-          SafeArea(
-            child: Column(
-              children: [
-                SizedBox(height: 220.h),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // QR Code scanner frame
-                    Container(
-                      width: 0.5.sw,
-                      height: 0.5.sw,
-                      margin: EdgeInsets.symmetric(horizontal: 0.15.sw),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.red, width: 2.w),
+            const SizedBox(height: 4), // Reduced from 8 to 4 for minimal gap
+
+            // QR Code scanner frame
+            Expanded(
+              flex: 3, // Takes 3 parts of remaining space
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final scannerSize = screenWidth * 0.8; // 80% of screen width
+                  return Container(
+                    width: scannerSize,
+                    height: scannerSize,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.1, // 10% of screen width
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 2),
+                    ),
+                    child: MobileScanner(
+                      controller: MobileScannerController(
+                        detectionSpeed: DetectionSpeed.normal,
+                        facing: CameraFacing.back,
+                        torchEnabled: isFlashOn,
                       ),
-                      child: MobileScanner(
-                        controller: cameraController!,
-                        onDetect: (capture) {
-                          final List<Barcode> barcodes = capture.barcodes;
-                          try {
-                            if (barcodes.isEmpty) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const QRValidationFailedScreen(),
-                                ),
-                              );
-                              return;
-                            }
+                      onDetect: (capture) {
+                        final List<Barcode> barcodes = capture.barcodes;
+                        try {
+                          if (barcodes.isEmpty) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const QRValidationFailedScreen(),
+                              ),
+                            );
+                            return;
+                          }
 
                             for (final barcode in barcodes) {
                               if (barcode.rawValue != null) {
@@ -130,98 +118,89 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       ),
                     ),
 
-                    SizedBox(height: 16.h),
-                    
-                    // Flashlight button
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 8.r,
-                            offset: Offset(0, 2.h),
-                          ),
-                        ],
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          isFlashOn ? Icons.flash_off : Icons.flash_on,
-                          size: 24.sp,
-                          color: const Color(0xFF1A1442),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isFlashOn = !isFlashOn;
-                            cameraController?.toggleTorch();
-                          });
-                        },
-                      ),
+            // Bottom section
+            Expanded(
+              flex: 2, // Takes 2 parts of remaining space
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // Flashlight toggle button
+                  IconButton(
+                    icon: Icon(
+                      isFlashOn ? Icons.flash_off : Icons.flash_on,
+                      size: screenWidth * 0.07, // 7% of screen width
+                      color: Colors.black,
                     ),
-                  ],
-                ),
-
-                // Instructions text
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 16.h,
+                    onPressed: () => setState(() => isFlashOn = !isFlashOn),
                   ),
-                  child: Text(
-                    "Place above square direct to the QR code.\nYou will be redirected to the result screen automatically.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: const Color.fromARGB(255, 42, 30, 115),
+
+                  // Instructions text
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.04, // 4% of screen width
+                    ),
+                    child: Text(
+                      "Place above square direct to the QR code.\nYou will be redirected to the result screen automatically.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.035, // 3.5% of screen width
+                        color: const Color(0xFF1A1442),
+                      ),
                     ),
                   ),
                 ),
 
                 const Spacer(),
 
-                // Back to Dashboard button
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 16.h),
-                  child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      height: 60.h,
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black26),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10.r,
-                            offset: Offset(0, 5.h),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(width: 8.w),
-                          Text(
-                            'Back to Dashboard',
-                            style: TextStyle(
-                              color: const Color(0xFF1A1442),
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
+                  // Back to Dashboard button
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black26),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 10,
+                              offset: const Offset(0, 5),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/home.png',
+                              height: 24,
+                              width: 24,
+                              color: const Color(0xFF1A1442),
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Back to Dashboard',
+                              style: TextStyle(
+                                color: Color(0xFF1A1442),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 0.02.sh),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+
+            SizedBox(height: screenHeight * 0.02), // 2% of screen height
+          ],
+        ),
       ),
     );
   }
