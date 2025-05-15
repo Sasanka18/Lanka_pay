@@ -55,11 +55,13 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           // Main content
           SafeArea(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+             
               children: [
                 const SizedBox(height: 220), 
                 Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+               
                     // QR Code scanner frame
                     Container(
                       width: screenWidth * 0.5,
@@ -191,12 +193,12 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                           ),
                         ],
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                         
-                          const SizedBox(width: 8),
-                          const Text(
+                           SizedBox(width: 8),
+                           Text(
                             'Back to Dashboard',
                             style: TextStyle(
                               color: Color(0xFF1A1442),

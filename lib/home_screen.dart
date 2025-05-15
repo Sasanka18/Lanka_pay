@@ -45,18 +45,14 @@ class HomeScreen extends StatelessWidget {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/LankaQR Validator.png'),
+
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
           
-          Container(
-            height: height * 2, 
-            width: width,
-            color: Colors.black.withOpacity(0.4),
-          ),
-
+         
           // Main content
           SafeArea(
             child: SingleChildScrollView(
@@ -64,41 +60,19 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 10), 
+                 
                   
                   // Logo image
                   Image.asset(
                     'assets/logo.png',
-                    height: 60,
-                    width: 60,
+                    height:200,
+                    width: 200,
                    
                   ),
                   
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'LANKA',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                      Text(
-                        'QR',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
+                
+               
+                 
                   const Text(
                     'QR Code Validator',
                     style: TextStyle(
@@ -106,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                       fontSize: 18,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  //const SizedBox(height: ),
                   const Text(
                     'Use this application to validate any LankaQR codes\neasily, fast, and accurately.',
                     textAlign: TextAlign.center,
@@ -117,7 +91,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 90), 
+                  const SizedBox(height: 50), 
 
                   // Power button 
                   Align(
@@ -159,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
+                        boxShadow: const[
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 10,
@@ -167,15 +141,15 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Column(
+                      child:const Column(
                         children: [
-                          const Icon(Icons.qr_code_scanner,
+                           Icon(Icons.qr_code_scanner,
                               size: 40, color: Color(0xFF1A1442)),
-                          const SizedBox(height: 8),
+                           SizedBox(height: 8),
                           
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children:  [
                               Text(
                                 'SCAN ',
                                 style: TextStyle(

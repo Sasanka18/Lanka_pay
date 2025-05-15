@@ -39,6 +39,7 @@ class QRValidationResultScreen extends StatelessWidget {
                 vertical: screenHeight * 0.04,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
                     'assets/logo.png',
