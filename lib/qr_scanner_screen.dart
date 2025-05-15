@@ -37,76 +37,70 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Index image as header
+            // Header section
             Container(
-              width: screenWidth,
-              height: screenHeight * 0.15, // 15% of screen height
+              width: 1.sw,
+              height: 0.15.sh,
               child: Image.asset(
                 'assets/index.png',
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: const Color(0xFF1A1442),
+                    child: Center(
+                      child: Text(
+                        'Unable to load image',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
 
-            const SizedBox(height: 4), // Reduced from 8 to 4 for minimal gap
+            SizedBox(height: 4.h),
 
-            // QR Code scanner frame
+            // QR Scanner section
             Expanded(
-              flex: 3, // Takes 3 parts of remaining space
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final scannerSize = screenWidth * 0.8; // 80% of screen width
-                  return Container(
-                    width: scannerSize,
-                    height: scannerSize,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.1, // 10% of screen width
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red, width: 2),
-                    ),
-                    child: MobileScanner(
-                      controller: MobileScannerController(
-                        detectionSpeed: DetectionSpeed.normal,
-                        facing: CameraFacing.back,
-                        torchEnabled: isFlashOn,
-                      ),
-                      onDetect: (capture) {
-                        final List<Barcode> barcodes = capture.barcodes;
-                        try {
-                          if (barcodes.isEmpty) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const QRValidationFailedScreen(),
-                              ),
-                            );
-                            return;
-                          }
+              flex: 3,
+              child: Container(
+                width: 0.8.sw,
+                height: 0.8.sw,
+                margin: EdgeInsets.symmetric(horizontal: 0.1.sw),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.red, width: 2.w),
+                ),
+                child: MobileScanner(
+                  controller: cameraController,
+                  onDetect: (capture) {
+                    final List<Barcode> barcodes = capture.barcodes;
+                    try {
+                      if (barcodes.isEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const QRValidationFailedScreen(),
+                          ),
+                        );
+                        return;
+                      }
 
-                            for (final barcode in barcodes) {
-                              if (barcode.rawValue != null) {
-                                // Validate QR code format
-                                if (barcode.rawValue!.startsWith('00')) { 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => QRValidationResultScreen(
-                                        qrData: barcode.rawValue!,
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const QRValidationFailedScreen(),
-                                    ),
-                                  );
-                                }
-                                break;
-                              }
-                            }
-                          } catch (e) {
+                      for (final barcode in barcodes) {
+                        if (barcode.rawValue != null) {
+                          // Validate QR code format
+                          if (barcode.rawValue!.startsWith('00')) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QRValidationResultScreen(
+                                  qrData: barcode.rawValue!,
+                                ),
+                              ),
+                            );
+                          } else {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -114,13 +108,25 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                               ),
                             );
                           }
-                        },
-                      ),
-                    ),
+                          break;
+                        }
+                      }
+                    } catch (e) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QRValidationFailedScreen(),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
 
             // Bottom section
             Expanded(
-              flex: 2, // Takes 2 parts of remaining space
+              flex: 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -128,46 +134,46 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                   IconButton(
                     icon: Icon(
                       isFlashOn ? Icons.flash_off : Icons.flash_on,
-                      size: screenWidth * 0.07, // 7% of screen width
+                      size: 28.sp,
                       color: Colors.black,
                     ),
-                    onPressed: () => setState(() => isFlashOn = !isFlashOn),
+                    onPressed: () {
+                      setState(() {
+                        isFlashOn = !isFlashOn;
+                        cameraController?.toggleTorch();
+                      });
+                    },
                   ),
 
                   // Instructions text
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04, // 4% of screen width
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Text(
                       "Place above square direct to the QR code.\nYou will be redirected to the result screen automatically.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: screenWidth * 0.035, // 3.5% of screen width
+                        fontSize: 14.sp,
                         color: const Color(0xFF1A1442),
                       ),
                     ),
                   ),
-                ),
-
-                const Spacer(),
 
                   // Back to Dashboard button
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    padding: EdgeInsets.symmetric(horizontal: 32.w),
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(
-                        height: 60,
+                        height: 56.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                           color: Colors.white,
                           border: Border.all(color: Colors.black26),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 5),
+                              blurRadius: 10.r,
+                              offset: Offset(0, 5.h),
                             ),
                           ],
                         ),
@@ -176,16 +182,16 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                           children: [
                             Image.asset(
                               'assets/home.png',
-                              height: 24,
-                              width: 24,
+                              height: 24.h,
+                              width: 24.w,
                               color: const Color(0xFF1A1442),
                             ),
-                            const SizedBox(width: 8),
-                            const Text(
+                            SizedBox(width: 8.w),
+                            Text(
                               'Back to Dashboard',
                               style: TextStyle(
-                                color: Color(0xFF1A1442),
-                                fontSize: 16,
+                                color: const Color(0xFF1A1442),
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -198,7 +204,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               ),
             ),
 
-            SizedBox(height: screenHeight * 0.02), // 2% of screen height
+            SizedBox(height: 16.h),
           ],
         ),
       ),
