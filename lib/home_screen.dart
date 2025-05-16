@@ -38,189 +38,212 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            // Header with image and branding
-            Stack(
-              children: [
-                // Blue header background
-                Container(
-                  width: 1.sw,
-                  height: 0.45.sh,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1A1442),
-                    borderRadius: BorderRadius.circular(30.r),
-                  ),
-                ),
-                // Text content
-                Positioned(
-                  top: 0.05.sh,
-                  left: 0,
-                  right: 0,
-                  child: Column(
-                    children: [
-                      Text(
-                        'LANKAQR',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        'Qr Code Validator',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          'Use this application to validate any LankaQR codes\neasily, fast, and accurately.',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 0.03.sh),
-
-            // Scan QR Code button
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0.1.sw),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const QRScannerScreen()),
-                  );
-                },
-                child: Container(
-                  height: 0.12.sh,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.r),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 10.r,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.qr_code_scanner, size: 40, color: Color(0xFF1A1442)),
-                        SizedBox(height: 8),
-                        Text(
-                          'SCAN QR CODE',
-                          style: TextStyle(
-                            color: Color(0xFF1A1442),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+            // Background image container
+            Container(
+              width: 1.sw,
+              height: 1.sh,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/LankaQR Validator.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
 
-            SizedBox(height: 0.03.sh),
-
-            const Text(
-              'Scan QR code from Gallery',
-              style: TextStyle(
-                color: Color(0xFF1A1442),
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'Once upload the QR to the App, you will be\nredirected to the result screen.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Color(0xFF1A1442), fontSize: 13),
-            ),
-
-            SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-
-            // Upload buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            // Main content
+            Column(
               children: [
-                GestureDetector(
-                  onTap: () => _pickImage(context),
-                  child: Container(
-                    height: 55.h,
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black26),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Choose QR Code',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                // Header text content
+                SizedBox(height: 0.05.sh),
+                Image.asset(
+                  'assets/logo.png',
+                  height: 100.h,
+                  width: 100.w,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(
+                      Icons.image_not_supported,
+                      size: 40.sp,
+                      color: Colors.white70,
+                    );
+                  },
+                ),
+                Text(
+                  'Qr Code Validator',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 18.sp,
                   ),
                 ),
-                SizedBox(width: 12.w),
-                GestureDetector(
-                  onTap: () => _pickImage(context),
-                  child: Container(
-                    height: 55.h,
-                    width: 55.w,
-                    decoration: BoxDecoration(
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Text(
+                    'Use this application to validate any LankaQR codes\neasily, fast, and accurately.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 10.r,
-                          offset: Offset(0, 5.h),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Icon(
-                      Icons.upload,
-                      color: Colors.black54,
-                      size: 24.sp,
+                      fontSize: 10.sp,
+                      height: 1.5,
                     ),
                   ),
                 ),
+
+                SizedBox(height: 0.23.sh), // Reduced from 0.24.sh
+
+                // Scan QR Code button
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0.1.sw),
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const QRScannerScreen()),
+                    ),
+                    child: Container(
+                      height: 0.1.sh, // Reduced from 0.12.sh
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.r),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            blurRadius: 10.r,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Row( // Changed from Column to Row for better spacing
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.qr_code_scanner, size: 32.sp, color: const Color(0xFF1A1442)),
+                              SizedBox(height: 8.h),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'SCAN ',
+                                      style: TextStyle(
+                                        color: const Color(0xFF1A1442),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'QR',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: ' CODE',
+                                      style: TextStyle(
+                                        color: const Color(0xFF1A1442),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 0.03.sh), // Reduced spacing after button
+
+                // Gallery section
+                Text(
+                  'Scan QR code from Gallery',
+                  style: TextStyle(
+                    color: const Color(0xFF1A1442),
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  'Once upload the QR to the App, you will be\nredirected to the result screen.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color:  const Color(0xFF1A1442),
+                    fontSize: 13.sp,
+                  ),
+                ),
+
+                SizedBox(height: 0.02.sh),
+
+                // Upload buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => _pickImage(context),
+                      child: Container(
+                        height: 55.h,
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Choose QR Code',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    GestureDetector(
+                      onTap: () => _pickImage(context),
+                      child: Container(
+                        height: 55.h,
+                        width: 55.w,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 10.r,
+                              offset: Offset(0, 5.h),
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Icon(
+                          Icons.upload,
+                          color: Colors.black54,
+                          size: 24.sp,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const Spacer(),
+
+                // Footer text
+                Padding(
+                  padding: EdgeInsets.only(bottom: 12.h),
+                  child: Text(
+                    'This application developed by DirectPay for developers,\nmerchants and community. Version 1.0',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 10.sp, color: const Color.fromARGB(179, 128, 128, 128)),
+                  ),
+                ),
               ],
-            ),
-
-            const Spacer(),
-
-            // Footer text
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.h),
-              child: Text(
-                'This application developed by DirectPay for developers,\nmerchants and community. Version 1.0',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 10.sp, color: Colors.grey),
-              ),
             ),
           ],
         ),

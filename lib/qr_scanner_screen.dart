@@ -61,8 +61,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               ),
             ),
 
-            SizedBox(height: 4.h),
-
             // QR Scanner section
             Expanded(
               flex: 3,
