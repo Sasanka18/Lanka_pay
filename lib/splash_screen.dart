@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Remove MediaQuery since we're using ScreenUtil
+
     return Scaffold(
       body: Column(
         children: [
